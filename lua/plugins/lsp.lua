@@ -47,6 +47,13 @@ return {
 
     -- Autocomplete for init.lua
     'folke/neodev.nvim',
+
+    -- LSP formatting, diagnostics, ...
+    {
+      'jose-elias-alvarez/null-ls.nvim',
+      dependencies = { 'nvim-lua/plenary.nvim' },
+    },
+    'jay-babu/mason-null-ls.nvim',
   },
 
   config = function()
@@ -57,7 +64,6 @@ return {
     local lsp = require('lsp-zero')
     lsp.preset({
       name = 'recommended',
-      suggest_lsp_servers = true,
     })
 
     lsp.on_attach(on_attach)
@@ -80,6 +86,19 @@ return {
         { name = 'buffer' },
       },
     })
+
+    -- Null LS setup
+    local null_ls = require('null-ls')
+    null_ls.setup {
+      sources = {
+        -- typescript
+        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.diagnostics.eslint,
+      },
+    }
+
+    -- Easier managment of tools required to run null_ls
+    require('mason-null-ls').setup()
 
     -- Additional rust settings
     require('rust-tools').setup({
