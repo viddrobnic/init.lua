@@ -15,6 +15,8 @@ return {
         null_ls.builtins.diagnostics.eslint,
         -- golang
         null_ls.builtins.diagnostics.golangci_lint,
+        -- toml
+        null_ls.builtins.formatting.taplo,
       },
     }
   end,

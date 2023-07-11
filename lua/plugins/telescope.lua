@@ -13,6 +13,40 @@ return {
     },
   },
   config = function()
+    -- Setup additional telescope options
+    require('telescope').setup({
+      pickers = {
+        find_files = {
+          find_command = {
+            'rg',
+            '--files',
+            '--color', 'never',
+            '--hidden',
+            '--no-ignore-vcs',
+            '--smart-case',
+            '-g', '!.git',
+          },
+        },
+      },
+      defaults = {
+        vimgrep_arguments = {
+          'rg',
+          '--color', 'never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case',
+          '--hidden',
+          '--no-ignore-vcs',
+          '-g', '!.git',
+        },
+      },
+    })
+
+    -- Enable telescope fzf native, if installed
+    pcall(require('telescope').load_extension, 'fzf')
+
     -- Set keymaps
     local builtin = require('telescope.builtin')
     vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
@@ -22,8 +56,5 @@ return {
     vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
     vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch [B]uffers' })
     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-
-    -- Enable telescope fzf native, if installed
-    pcall(require('telescope').load_extension, 'fzf')
   end
 }
