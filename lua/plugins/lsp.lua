@@ -15,7 +15,7 @@ local on_attach = function(client, bufnr)
 
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts('[G]oto [D]efinition'))
   vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, opts('[G]oto [R]eference'))
-  vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, opts('[G]oto [I]mplementation'))
+  vim.keymap.set('n', 'gI', require('telescope.builtin').lsp_implementations, opts('[G]oto [I]mplementation'))
   vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts('Type [D]efinition'))
   vim.keymap.set('n', '<leader>ds', require('telescope.builtin').lsp_document_symbols, opts('[D]ocument [S]ymbols'))
   vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
@@ -91,9 +91,12 @@ return {
     local null_ls = require('null-ls')
     null_ls.setup {
       sources = {
+        -- python
+        null_ls.builtins.formatting.autopep8,
         -- typescript
-        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.formatting.prettierd,
         null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.formatting.rustywind,
       },
     }
 
