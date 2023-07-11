@@ -71,9 +71,6 @@ require('lazy').setup({
   -- Buffer managment
   'jlanzarotta/bufexplorer',
 
-  -- Copilot, obviously :)
-  'github/copilot.vim',
-
   -- Import plugins that require configuration
   { import = 'plugins' }
 }, {})

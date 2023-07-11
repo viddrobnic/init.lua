@@ -23,6 +23,9 @@ local on_attach = function(client, bufnr)
 
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts('Hover Documentation'))
   vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, opts('Signature Documentation'))
+
+  -- autoformat on save
+  require('lsp-zero').buffer_autoformat()
 end
 
 return {
@@ -47,11 +50,18 @@ return {
   },
 
   config = function()
+    -- Autocomplete for vim stuff
+    require('neodev').setup()
+
+    -- LSP setup
     local lsp = require('lsp-zero')
     lsp.preset({
       name = 'recommended',
       suggest_lsp_servers = true,
     })
+
+    lsp.on_attach(on_attach)
+    lsp.setup()
 
     -- Set keymap for autocomplete
     local cmp = require('cmp')
@@ -61,16 +71,15 @@ return {
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<Tab>'] = cmp.config.disable,
+        ['<S-Tab>'] = cmp.config.disable,
+      },
+      sources = {
+        { name = 'nvim_lsp' },
+        { name = 'path' },
+        { name = 'buffer' },
       },
     })
-
-    -- Set lsp keymap
-    lsp.on_attach(on_attach)
-    lsp.buffer_autoformat() -- autoformat on save
-    lsp.setup()
-
-    -- Autocomplete for vim stuff
-    require('neodev').setup()
 
     -- Additional rust settings
     require('rust-tools').setup({
@@ -80,7 +89,7 @@ return {
         },
         inlay_hints = {
           auto = true,
-          show_parameter_hints = true,
+          show_parameter_hints = false,
           parameter_hints_prefix = '',
           other_hints_prefix = '',
         },
