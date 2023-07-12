@@ -1,5 +1,5 @@
 -- LSP Configuration
-local on_attach = function(client, bufnr)
+local on_attach = function(_, bufnr)
   local opts = function(desc)
     if desc then
       desc = 'LSP: ' .. desc
@@ -33,28 +33,28 @@ return {
   branch = 'v2.x',
   dependencies = {
     -- LSP Support
-    'neovim/nvim-lspconfig',             -- Required
-    'williamboman/mason.nvim',           -- Optional
-    'williamboman/mason-lspconfig.nvim', -- Optional
+    'neovim/nvim-lspconfig',
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
 
     -- Autocompletion
-    'hrsh7th/nvim-cmp',     -- Required
-    'hrsh7th/cmp-nvim-lsp', -- Required
-    'L3MON4D3/LuaSnip',     -- Required
+    'hrsh7th/nvim-cmp',
+    'hrsh7th/cmp-nvim-lsp',
+    'saadparwaiz1/cmp_luasnip',
+
+    -- Snippets
+    'L3MON4D3/LuaSnip',
+    'rafamadriz/friendly-snippets',
 
     -- Additional rust features
     'simrat39/rust-tools.nvim',
 
+    -- Additional go features
+    'ray-x/go.nvim',
+
     -- Autocomplete for init.lua
     'folke/neodev.nvim',
-
-    -- LSP formatting, diagnostics, ...
-    {
-      'jose-elias-alvarez/null-ls.nvim',
-      dependencies = { 'nvim-lua/plenary.nvim' },
-    },
-    'jay-babu/mason-null-ls.nvim',
-  },
+    u },
 
   config = function()
     -- Autocomplete for vim stuff
@@ -67,10 +67,25 @@ return {
     })
 
     lsp.on_attach(on_attach)
+
+    lsp.set_sign_icons({
+      error = '✘',
+      warn = '▲',
+      hint = '⚑',
+      info = '»',
+    })
+
+    -- Skip rust server setup, we will do it later.
+    lsp.skip_server_setup({ 'rust_analyzer' })
+
     lsp.setup()
 
     -- Set keymap for autocomplete
     local cmp = require('cmp')
+    local cmp_action = require('lsp-zero').cmp_action()
+
+    require('luasnip.loaders.from_vscode').lazy_load()
+
     cmp.setup({
       mapping = {
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
@@ -79,32 +94,21 @@ return {
         ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<Tab>'] = cmp.config.disable,
         ['<S-Tab>'] = cmp.config.disable,
+        ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+        ['<C-b>'] = cmp_action.luasnip_jump_backward(),
       },
       sources = {
         { name = 'nvim_lsp' },
-        { name = 'path' },
-        { name = 'buffer' },
+        { name = 'luasnip' },
       },
     })
 
-    -- Null LS setup
-    local null_ls = require('null-ls')
-    null_ls.setup {
-      sources = {
-        -- python
-        null_ls.builtins.formatting.autopep8,
-        -- typescript
-        null_ls.builtins.formatting.prettierd,
-        null_ls.builtins.diagnostics.eslint,
-        null_ls.builtins.formatting.rustywind,
-      },
-    }
-
-    -- Easier managment of tools required to run null_ls
-    require('mason-null-ls').setup()
+    -- Additional go settings
+    require('go').setup()
 
     -- Additional rust settings
-    require('rust-tools').setup({
+    local rust_tools = require('rust-tools')
+    rust_tools.setup({
       tools = {
         runnables = {
           use_telescope = true,
@@ -117,7 +121,10 @@ return {
         },
       },
       server = {
-        on_attach = on_attach,
+        on_attach = function(_, bufnr)
+          vim.keymap.set('n', '<leader>rh', rust_tools.hover_actions.hover_actions,
+            { buffer = bufnr, desc = 'LSP: [R]ust [H]over' })
+        end,
         settings = {
           ['rust-analyzer'] = {
             cargo = {
