@@ -54,7 +54,7 @@ return {
 
     -- Autocomplete for init.lua
     'folke/neodev.nvim',
-    u },
+  },
 
   config = function()
     -- Autocomplete for vim stuff
