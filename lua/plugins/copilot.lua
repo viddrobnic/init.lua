@@ -11,6 +11,9 @@ return {
           accept = false,
         },
       },
+      filetypes = {
+        yaml = true,
+      },
     })
 
     vim.keymap.set('i', '<Tab>', function()

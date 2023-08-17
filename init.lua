@@ -66,7 +66,22 @@ require('lazy').setup({
   },
 
   -- Comment block of lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  {
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup({
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      })
+    end
+  },
+
+  -- Close HTML tags
+  {
+    'windwp/nvim-ts-autotag',
+    config = function()
+      require('nvim-ts-autotag').setup()
+    end
+  },
 
   -- Buffer managment
   'jlanzarotta/bufexplorer',

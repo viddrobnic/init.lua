@@ -5,10 +5,13 @@ return {
     'nvim-treesitter/nvim-treesitter-textobjects',
     'nvim-treesitter/nvim-treesitter-context',
     'nvim-treesitter/nvim-treesitter-refactor',
+
+    -- detect comments with different language from file (ie jsx)
+    'JoosepAlviste/nvim-ts-context-commentstring',
   },
   config = function()
     -- Configure treesitter
-    require('nvim-treesitter.configs').setup {
+    require('nvim-treesitter.configs').setup({
       ensure_installed = {
         'c',
         'cpp',
@@ -24,6 +27,14 @@ return {
         'javascript',
         'markdown',
         'markdown_inline',
+        'sql',
+      },
+      sync_install = false,
+
+      ignore_install = {},
+
+      context_commentstring = {
+        enable = true,
       },
 
       auto_install = false,
@@ -50,6 +61,6 @@ return {
           clear_on_cursor_move = true,
         },
       },
-    }
+    })
   end,
 }
