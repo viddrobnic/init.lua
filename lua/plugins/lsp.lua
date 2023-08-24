@@ -50,7 +50,7 @@ return {
     'simrat39/rust-tools.nvim',
 
     -- Additional go features
-    'ray-x/go.nvim',
+    'fatih/vim-go',
 
     -- Autocomplete for init.lua
     'folke/neodev.nvim',
@@ -102,9 +102,6 @@ return {
         { name = 'luasnip' },
       },
     })
-
-    -- Additional go settings
-    require('go').setup()
 
     -- Additional rust settings
     local rust_tools = require('rust-tools')

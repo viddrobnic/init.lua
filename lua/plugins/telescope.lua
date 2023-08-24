@@ -45,6 +45,9 @@ return {
     -- Enable telescope fzf native, if installed
     pcall(require('telescope').load_extension, 'fzf')
 
+    -- Enable harpoon
+    require('telescope').load_extension('harpoon')
+
     -- Set keymaps
     local builtin = require('telescope.builtin')
     vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })

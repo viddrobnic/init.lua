@@ -31,6 +31,16 @@ return {
             padding = 3,
             color = { fg = '#6e738d' },
           },
+          {
+            function()
+              if vim.bo.expandtab then
+                return '󱁐'
+              else
+                return ''
+              end
+            end,
+            padding = 2,
+          },
           'encoding',
           'fileformat',
           'filetype',

@@ -28,6 +28,7 @@ return {
         'markdown',
         'markdown_inline',
         'sql',
+        'ocaml',
       },
       sync_install = false,
 
