@@ -13,9 +13,12 @@ return {
       },
       filetypes = {
         yaml = true,
+        go = true,
       },
     })
 
+    -- If there is a copilot suggestion, tab accepts it,
+    -- otherwise it behaves normally.
     vim.keymap.set('i', '<Tab>', function()
       if require('copilot.suggestion').is_visible() then
         require('copilot.suggestion').accept()

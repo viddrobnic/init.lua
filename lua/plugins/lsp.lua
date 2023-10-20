@@ -74,7 +74,6 @@ return {
       hint = '⚑',
       info = '»',
     })
-
     -- Skip rust server setup, we will do it later.
     lsp.skip_server_setup({ 'rust_analyzer' })
 
@@ -90,8 +89,8 @@ return {
       mapping = {
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
         ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-k>'] = cmp.mapping.select_prev_item(),
+        ['<C-j>'] = cmp.mapping.select_next_item(),
         ['<Tab>'] = cmp.config.disable,
         ['<S-Tab>'] = cmp.config.disable,
         ['<C-f>'] = cmp_action.luasnip_jump_forward(),

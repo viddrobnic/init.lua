@@ -86,6 +86,9 @@ require('lazy').setup({
   -- Buffer managment
   'jlanzarotta/bufexplorer',
 
+  -- Icons
+  'nvim-tree/nvim-web-devicons',
+
   -- Import plugins that require configuration
   { import = 'plugins' }
 }, {})
