@@ -36,3 +36,4 @@ vim.diagnostic.config({
   virtual_text = true
 })
 
+vim.g.skip_ts_context_commentstring_module = true
