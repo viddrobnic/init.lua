@@ -25,26 +25,15 @@ local on_attach = function(_, bufnr)
   vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, opts('Signature Documentation'))
 
   -- autoformat on save
-  require('lsp-zero').buffer_autoformat()
+  vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 end
 
 return {
-  'VonHeikemen/lsp-zero.nvim',
-  branch = 'v2.x',
+  'neovim/nvim-lspconfig',
   dependencies = {
-    -- LSP Support
-    'neovim/nvim-lspconfig',
+    -- Automatically install LSPs to stdpath for neovim
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
-
-    -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-nvim-lsp',
-    'saadparwaiz1/cmp_luasnip',
-
-    -- Snippets
-    'L3MON4D3/LuaSnip',
-    'rafamadriz/friendly-snippets',
 
     -- Additional rust features
     'simrat39/rust-tools.nvim',
@@ -52,59 +41,66 @@ return {
     -- Additional go features
     'fatih/vim-go',
 
+    -- Useful status updates for LSP
+    { 'j-hui/fidget.nvim', opts = {}, tag = 'legacy' },
+
     -- Autocomplete for init.lua
     'folke/neodev.nvim',
   },
 
   config = function()
+    require('mason').setup()
+    require('mason-lspconfig').setup()
+
+    local servers = {
+      clangd = {},
+      gopls = {},
+      golangci_lint_ls = {},
+      marksman = {},
+      pyright = {},
+      tsserver = {},
+      html = {},
+      lua_ls = {
+        Lua = {
+          workspace = { checkThirdParty = false },
+          telemetry = { enable = false },
+        },
+      },
+    }
+
     -- Autocomplete for vim stuff
     require('neodev').setup()
 
-    -- LSP setup
-    local lsp = require('lsp-zero')
-    lsp.preset({
-      name = 'recommended',
-    })
+    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-    lsp.on_attach(on_attach)
+    -- Ensure the servers above are installed
+    local mason_lspconfig = require 'mason-lspconfig'
 
-    lsp.set_sign_icons({
-      error = '✘',
-      warn = '▲',
-      hint = '⚑',
-      info = '»',
-    })
-    -- Skip rust server setup, we will do it later.
-    lsp.skip_server_setup({ 'rust_analyzer' })
+    mason_lspconfig.setup {
+      ensure_installed = vim.tbl_keys(servers),
+    }
 
-    lsp.setup()
+    mason_lspconfig.setup_handlers {
+      function(server_name)
+        require('lspconfig')[server_name].setup {
+          capabilities = capabilities,
+          on_attach = on_attach,
+          settings = servers[server_name],
+          filetypes = (servers[server_name] or {}).filetypes,
+        }
+      end,
+    }
 
-    -- Set keymap for autocomplete
-    local cmp = require('cmp')
-    local cmp_action = require('lsp-zero').cmp_action()
-
-    require('luasnip.loaders.from_vscode').lazy_load()
-
-    cmp.setup({
-      mapping = {
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-k>'] = cmp.mapping.select_prev_item(),
-        ['<C-j>'] = cmp.mapping.select_next_item(),
-        ['<Tab>'] = cmp.config.disable,
-        ['<S-Tab>'] = cmp.config.disable,
-        ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-        ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-      },
-      sources = {
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
-      },
-    })
+    -- Custom signs for diagnostics
+    vim.fn.sign_define('DiagnosticSignError', { text = '✘', texthl = 'DiagnosticSignError' })
+    vim.fn.sign_define('DiagnosticSignWarn', { text = '▲', texthl = 'DiagnosticSignWarn' })
+    vim.fn.sign_define('DiagnosticSignHint', { text = '⚑', texthl = 'DiagnosticSignHint' })
+    vim.fn.sign_define('DiagnosticSignInfo', { text = '»', texthl = 'DiagnosticSignInfo' })
 
     -- Additional rust settings
-    local rust_tools = require('rust-tools')
-    rust_tools.setup({
+    require('rust-tools').setup({
       tools = {
         runnables = {
           use_telescope = true,
