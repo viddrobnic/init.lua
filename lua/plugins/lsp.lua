@@ -1,5 +1,5 @@
 -- LSP Configuration
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
   local opts = function(desc)
     if desc then
       desc = 'LSP: ' .. desc
@@ -24,8 +24,13 @@ local on_attach = function(_, bufnr)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts('Hover Documentation'))
   vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, opts('Signature Documentation'))
 
-  -- autoformat on save
-  vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
+  -- command to autoformat and save
+  vim.keymap.set('n', 'fw', function()
+    if client.supports_method("textDocument/formatting") then
+      vim.lsp.buf.format()
+      vim.cmd('write')
+    end
+  end, opts('[F]ormat on [W]rite'))
 end
 
 return {
@@ -46,6 +51,9 @@ return {
 
     -- Autocomplete for init.lua
     'folke/neodev.nvim',
+
+    -- JS prettier
+    'prettier/vim-prettier',
   },
 
   config = function()
@@ -59,13 +67,36 @@ return {
       marksman = {},
       pyright = {},
       tsserver = {},
+      eslint = {},
       html = {},
+      templ = {},
+      tailwindcss = {
+        filetypes = {
+          'html',
+          'css',
+          'scss',
+          'javascript',
+          'javascriptreact',
+          'typescript',
+          'typescriptreact',
+          'templ',
+        },
+        init_options = {
+          userLanguages = {
+            templ = 'html',
+          },
+        },
+      },
       lua_ls = {
         Lua = {
           workspace = { checkThirdParty = false },
           telemetry = { enable = false },
         },
       },
+      jsonls = {},
+      yamlls = {},
+      spectral = {},
+      taplo = {},
     }
 
     -- Autocomplete for vim stuff
@@ -89,6 +120,7 @@ return {
           on_attach = on_attach,
           settings = servers[server_name],
           filetypes = (servers[server_name] or {}).filetypes,
+          init_options = (servers[server_name] or {}).init_options,
         }
       end,
     }

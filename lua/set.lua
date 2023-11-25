@@ -37,3 +37,9 @@ vim.diagnostic.config({
 })
 
 vim.g.skip_ts_context_commentstring_module = true
+
+vim.filetype.add({
+  extension = {
+    templ = "templ",
+  },
+})
