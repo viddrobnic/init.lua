@@ -1,5 +1,5 @@
 -- LSP Configuration
-local on_attach = function(client, bufnr)
+local on_attach = function(_, bufnr)
   local opts = function(desc)
     if desc then
       desc = 'LSP: ' .. desc
@@ -9,9 +9,6 @@ local on_attach = function(client, bufnr)
 
   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts('[R]e[n]ame'))
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts('[C]ode [A]ction'))
-  vim.keymap.set({ 'n', 'x' }, 'ff', function()
-    vim.lsp.buf.format({ async = false, timeout_ms = 10000 })
-  end, opts('[F]ormat'))
 
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts('[G]oto [D]efinition'))
   vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, opts('[G]oto [R]eference'))
@@ -23,14 +20,6 @@ local on_attach = function(client, bufnr)
 
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts('Hover Documentation'))
   vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, opts('Signature Documentation'))
-
-  -- command to autoformat and save
-  vim.keymap.set('n', 'fw', function()
-    if client.supports_method("textDocument/formatting") then
-      vim.lsp.buf.format()
-      vim.cmd('write')
-    end
-  end, opts('[F]ormat on [W]rite'))
 end
 
 return {
@@ -51,9 +40,6 @@ return {
 
     -- Autocomplete for init.lua
     'folke/neodev.nvim',
-
-    -- JS prettier
-    'prettier/vim-prettier',
   },
 
   config = function()
@@ -64,7 +50,6 @@ return {
       clangd = {},
       gopls = {},
       golangci_lint_ls = {},
-      marksman = {},
       pyright = {},
       tsserver = {},
       eslint = {},
@@ -97,6 +82,7 @@ return {
       yamlls = {},
       spectral = {},
       taplo = {},
+      ocamllsp = {},
     }
 
     -- Autocomplete for vim stuff
