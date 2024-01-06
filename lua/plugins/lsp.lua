@@ -30,7 +30,11 @@ return {
     'williamboman/mason-lspconfig.nvim',
 
     -- Additional rust features
-    'simrat39/rust-tools.nvim',
+    {
+      'mrcjkb/rustaceanvim',
+      version = '^3', -- Recommended
+      ft = { 'rust' },
+    },
 
     -- Additional go features
     'fatih/vim-go',
@@ -117,24 +121,9 @@ return {
     vim.fn.sign_define('DiagnosticSignHint', { text = '⚑', texthl = 'DiagnosticSignHint' })
     vim.fn.sign_define('DiagnosticSignInfo', { text = '»', texthl = 'DiagnosticSignInfo' })
 
-    -- Additional rust settings
-    require('rust-tools').setup({
-      tools = {
-        runnables = {
-          use_telescope = true,
-        },
-        inlay_hints = {
-          auto = true,
-          show_parameter_hints = false,
-          parameter_hints_prefix = '',
-          other_hints_prefix = '',
-        },
-      },
+    vim.g.rustaceanvim = {
       server = {
-        on_attach = function(_, bufnr)
-          vim.keymap.set('n', '<leader>rh', rust_tools.hover_actions.hover_actions,
-            { buffer = bufnr, desc = 'LSP: [R]ust [H]over' })
-        end,
+        on_attach = on_attach,
         settings = {
           ['rust-analyzer'] = {
             cargo = {
@@ -147,7 +136,7 @@ return {
             },
           },
         },
-      },
-    })
+      }
+    }
   end,
 }

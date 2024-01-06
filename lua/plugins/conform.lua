@@ -12,10 +12,10 @@ return {
       formatters_by_ft = {
         markdown = { 'mdformat' },
         html = { 'djlint', 'rustywind' },
-        javascript = { 'prettierd', 'rustywind' },
-        javascriptreact = { 'prettierd', 'rustywind' },
-        typescript = { 'prettierd', 'rustywind' },
-        typescriptreact = { 'prettierd', 'rustywind' },
+        javascript = { 'prettier', 'rustywind' },
+        javascriptreact = { 'prettier', 'rustywind' },
+        typescript = { 'prettier', 'rustywind' },
+        typescriptreact = { 'prettier', 'rustywind' },
       },
 
       format_on_save = opts,
