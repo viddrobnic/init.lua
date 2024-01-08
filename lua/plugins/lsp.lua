@@ -19,7 +19,7 @@ local on_attach = function(_, bufnr)
     opts('[W]orkspace [S]ymbols'))
 
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts('Hover Documentation'))
-  vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, opts('Signature Documentation'))
+  vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts('Signature Documentation'))
 end
 
 return {
@@ -86,7 +86,7 @@ return {
       yamlls = {},
       spectral = {},
       taplo = {},
-      ocamllsp = {},
+      -- ocamllsp = {},
     }
 
     -- Autocomplete for vim stuff
