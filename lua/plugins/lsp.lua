@@ -121,6 +121,7 @@ return {
     vim.fn.sign_define('DiagnosticSignHint', { text = '⚑', texthl = 'DiagnosticSignHint' })
     vim.fn.sign_define('DiagnosticSignInfo', { text = '»', texthl = 'DiagnosticSignInfo' })
 
+    -- Rust setup
     vim.g.rustaceanvim = {
       server = {
         on_attach = on_attach,
