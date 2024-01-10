@@ -32,6 +32,11 @@ vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = ''
 
+vim.opt.spelllang = 'en_us'
+vim.opt.spelloptions = 'camel'
+vim.opt.spellcapcheck = ''
+vim.opt.spell = true
+
 vim.diagnostic.config({
   virtual_text = true
 })
