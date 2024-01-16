@@ -20,6 +20,8 @@ local on_attach = function(_, bufnr)
 
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts('Hover Documentation'))
   vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts('Signature Documentation'))
+
+  vim.lsp.inlay_hint.enable(bufnr, true)
 end
 
 return {
@@ -52,7 +54,14 @@ return {
 
     local servers = {
       clangd = {},
-      gopls = {},
+      gopls = {
+        gopls = {
+          hints = {
+            constantValues = true,
+            parameterNames = true,
+          },
+        },
+      },
       golangci_lint_ls = {},
       pyright = {},
       tsserver = {},

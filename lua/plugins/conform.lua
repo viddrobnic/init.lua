@@ -10,7 +10,7 @@ return {
     local conform = require('conform')
     conform.setup({
       formatters_by_ft = {
-        markdown = { 'mdformat' },
+        markdown = { 'prettier' },
         html = { 'djlint', 'rustywind' },
         javascript = { 'prettier', 'rustywind' },
         javascriptreact = { 'prettier', 'rustywind' },
