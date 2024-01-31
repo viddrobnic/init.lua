@@ -42,12 +42,6 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
-  -- Show errors inline
-  'folke/trouble.nvim',
-
-  -- Show which keybindgs are available with
-  { 'folke/which-key.nvim',  opts = {} },
-
   -- Autopairs on newline
   { 'windwp/nvim-autopairs', opts = {} },
 
@@ -66,7 +60,7 @@ require('lazy').setup({
     end
   },
 
-  -- -- Comment block of lines
+  -- Comment block of lines
   {
     'numToStr/Comment.nvim',
     dependencies = {
@@ -90,9 +84,6 @@ require('lazy').setup({
       require('nvim-ts-autotag').setup()
     end
   },
-
-  -- Buffer managment
-  'jlanzarotta/bufexplorer',
 
   -- Icons
   'nvim-tree/nvim-web-devicons',

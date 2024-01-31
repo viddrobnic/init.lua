@@ -95,7 +95,7 @@ return {
       yamlls = {},
       spectral = {},
       taplo = {},
-      -- ocamllsp = {},
+      ocamllsp = {},
     }
 
     -- Autocomplete for vim stuff
