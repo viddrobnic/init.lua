@@ -16,6 +16,7 @@ return {
         javascriptreact = { 'prettier', 'rustywind' },
         typescript = { 'prettier', 'rustywind' },
         typescriptreact = { 'prettier', 'rustywind' },
+        yaml = { 'prettier' },
       },
 
       format_on_save = opts,

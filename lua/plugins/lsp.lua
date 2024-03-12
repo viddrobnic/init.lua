@@ -54,6 +54,7 @@ return {
 
     local servers = {
       clangd = {},
+      cmake = {},
       gopls = {
         gopls = {
           hints = {
@@ -96,6 +97,7 @@ return {
       spectral = {},
       taplo = {},
       ocamllsp = {},
+      zls = {},
     }
 
     -- Autocomplete for vim stuff
