@@ -1,9 +1,6 @@
 return {
   'hrsh7th/nvim-cmp',
   dependencies = {
-    -- Copilot as snippets
-    'zbirenbaum/copilot-cmp',
-
     -- Snippet Engine & its associated nvim-cmp source
     'L3MON4D3/LuaSnip',
     'saadparwaiz1/cmp_luasnip',
@@ -24,8 +21,6 @@ return {
     local luasnip = require('luasnip')
     require('luasnip.loaders.from_vscode').lazy_load()
     luasnip.config.setup({})
-
-    require("copilot_cmp").setup()
 
     local has_words_before = function()
       if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
@@ -74,7 +69,6 @@ return {
         end, { 'i', 's' }),
       },
       sources = {
-        { name = 'copilot' },
         { name = 'luasnip' },
         { name = 'nvim_lsp' },
         { name = 'path' },
