@@ -16,30 +16,20 @@ return {
     'onsails/lspkind.nvim',
   },
   config = function()
-    -- Set keymap for autocomplete
-    local cmp = require('cmp')
-    local luasnip = require('luasnip')
-    require('luasnip.loaders.from_vscode').lazy_load()
-    luasnip.config.setup({})
-
-    local has_words_before = function()
-      if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
-      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-      return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
-    end
-
     local lspkind = require('lspkind')
+    lspkind.init({
+      mode = 'symbol_text',
+    })
+
+    local cmp = require('cmp')
+
+    local ls = require('luasnip')
+    require('luasnip.loaders.from_vscode').lazy_load()
+
     cmp.setup({
-      formatting = {
-        format = lspkind.cmp_format({
-          mode = "symbol_text",
-          max_width = 50,
-          symbol_map = { Copilot = "" }
-        })
-      },
       snippet = {
         expand = function(args)
-          luasnip.lsp_expand(args.body)
+          ls.lsp_expand(args.body)
         end
       },
       mapping = cmp.mapping.preset.insert {
@@ -49,24 +39,6 @@ return {
         ['<C-j>'] = cmp.mapping.select_next_item(),
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ["<Tab>"] = vim.schedule_wrap(function(fallback)
-          if cmp.visible() and has_words_before() then
-            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-          elseif luasnip.expand_or_locally_jumpable() then
-            luasnip.expand_or_jump()
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif luasnip.locally_jumpable(-1) then
-            luasnip.jump(-1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
       },
       sources = {
         { name = 'luasnip' },
@@ -78,5 +50,17 @@ return {
         documentation = cmp.config.window.bordered(),
       },
     })
+
+    vim.keymap.set({ "i", "s" }, "<C-l>", function()
+      if ls.expand_or_jumpable() then
+        ls.expand_or_jump()
+      end
+    end, { silent = true })
+
+    vim.keymap.set({ "i", "s" }, "<C-h>", function()
+      if ls.jumpable(-1) then
+        ls.jump(-1)
+      end
+    end, { silent = true })
   end
 }

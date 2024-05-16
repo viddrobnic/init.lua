@@ -21,7 +21,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts('Hover Documentation'))
   vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts('Signature Documentation'))
 
-  vim.lsp.inlay_hint.enable(bufnr, true)
+  vim.lsp.inlay_hint.enable(true)
 end
 
 return {
@@ -58,8 +58,11 @@ return {
       gopls = {
         gopls = {
           hints = {
+            compositeLiteralFields = true,
             constantValues = true,
+            functionTypeParameters = true,
             parameterNames = true,
+            rangeVariableTypes = true
           },
         },
       },
@@ -97,7 +100,7 @@ return {
       spectral = {},
       taplo = {},
       ocamllsp = {},
-      zls = {},
+      -- zls = {},
     }
 
     -- Autocomplete for vim stuff
@@ -124,6 +127,11 @@ return {
           init_options = (servers[server_name] or {}).init_options,
         }
       end,
+    }
+
+    require('lspconfig').zls.setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
     }
 
     -- Custom signs for diagnostics
