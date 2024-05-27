@@ -34,8 +34,7 @@ return {
     -- Additional rust features
     {
       'mrcjkb/rustaceanvim',
-      version = '^3', -- Recommended
-      ft = { 'rust' },
+      version = '^4', -- Recommended
     },
 
     -- Additional go features
@@ -112,6 +111,7 @@ return {
 
     -- Ensure the servers above are installed
     local mason_lspconfig = require 'mason-lspconfig'
+    local lspconfig = require('lspconfig')
 
     mason_lspconfig.setup {
       ensure_installed = vim.tbl_keys(servers),
@@ -119,7 +119,7 @@ return {
 
     mason_lspconfig.setup_handlers {
       function(server_name)
-        require('lspconfig')[server_name].setup {
+        lspconfig[server_name].setup {
           capabilities = capabilities,
           on_attach = on_attach,
           settings = servers[server_name],
@@ -129,9 +129,33 @@ return {
       end,
     }
 
-    require('lspconfig').zls.setup {
+    lspconfig.zls.setup {
       capabilities = capabilities,
       on_attach = on_attach,
+    }
+
+    -- Rust setup
+    vim.g.rustaceanvim = {
+      tools = {
+        float_win_config = {
+          border = 'rounded',
+        },
+      },
+      server = {
+        on_attach = on_attach,
+        settings = {
+          ['rust-analyzer'] = {
+            cargo = {
+              -- always enable all features
+              features = 'all',
+            },
+            -- use clippy on save
+            checkOnSave = {
+              command = 'clippy',
+            },
+          },
+        },
+      }
     }
 
     -- Custom signs for diagnostics
@@ -155,25 +179,6 @@ return {
 
     vim.diagnostic.config {
       float = { border = "rounded" }
-    }
-
-    -- Rust setup
-    vim.g.rustaceanvim = {
-      server = {
-        on_attach = on_attach,
-        settings = {
-          ['rust-analyzer'] = {
-            cargo = {
-              -- always enable all features
-              features = 'all',
-            },
-            -- use clippy on save
-            checkOnSave = {
-              command = 'clippy',
-            },
-          },
-        },
-      }
     }
   end,
 }
