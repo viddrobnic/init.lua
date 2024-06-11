@@ -17,13 +17,16 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  -- Theme
   {
-    'catppuccin/nvim',
-    name = 'catppuccin',
+    'ellisonleao/gruvbox.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'catppuccin-macchiato'
+      require('gruvbox').setup({
+        contrast = 'soft',
+      })
+
+      vim.o.background = 'dark'
+      vim.cmd.colorscheme 'gruvbox'
     end
   },
 
@@ -83,6 +86,19 @@ require('lazy').setup({
     config = function()
       require('nvim-ts-autotag').setup()
     end
+  },
+
+  -- Supermaven
+  {
+    'supermaven-inc/supermaven-nvim',
+    config = function()
+      require('supermaven-nvim').setup({})
+      local api = require('supermaven-nvim.api')
+
+      api.stop()
+
+      vim.keymap.set('n', '<leader>sm', api.toggle)
+    end,
   },
 
   -- Icons

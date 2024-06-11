@@ -18,7 +18,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
     opts('[W]orkspace [S]ymbols'))
 
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts('Hover Documentation'))
+  vim.keymap.set('n', 'gh', vim.lsp.buf.hover, opts('Hover Documentation'))
   vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts('Signature Documentation'))
 
   vim.lsp.inlay_hint.enable(true)
