@@ -17,13 +17,33 @@ return {
         typescript = { 'prettier', 'rustywind' },
         typescriptreact = { 'prettier', 'rustywind' },
         yaml = { 'prettier' },
+        templ = { 'templ', 'rustywind' },
       },
 
-      format_on_save = opts,
+      format_on_save = function()
+        -- Disable with a global or buffer-local variable
+        if vim.g.disable_autoformat then
+          return
+        end
+        return opts
+      end,
     })
 
     vim.keymap.set({ 'n', 'x' }, '<leader>f', function()
       conform.format(opts)
     end, { desc = '[F]ormat' })
+
+    vim.api.nvim_create_user_command("FormatDisable", function()
+      vim.g.disable_autoformat = true
+    end, {
+      desc = "Disable autoformat-on-save",
+      bang = true,
+    })
+
+    vim.api.nvim_create_user_command("FormatEnable", function()
+      vim.g.disable_autoformat = false
+    end, {
+      desc = "Re-enable autoformat-on-save",
+    })
   end,
 }
