@@ -67,7 +67,7 @@ return {
       },
       golangci_lint_ls = {},
       pyright = {},
-      tsserver = {},
+      vtsls = {},
       eslint = {},
       html = {},
       templ = {},
