@@ -11,6 +11,18 @@ return {
   },
   config = function()
     vim.defer_fn(function()
+      -- Configure custom parse for my custom language
+      -- See https://github.com/viddrobnic/aoc-lang
+      local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+      parser_config.aoc = {
+        install_info = {
+          url = 'https://github.com/viddrobnic/aoc-lang.git',
+          files = { 'tree-sitter-aoc/src/parser.c' },
+        },
+        filetype = 'aoc',
+      }
+
+
       -- Configure treesitter
       require('nvim-treesitter.configs').setup({
         ensure_installed = {

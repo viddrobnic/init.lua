@@ -2,6 +2,7 @@ vim.opt.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkwait700-bl
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
+vim.opt.cursorline = true
 
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -28,6 +29,7 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = 'yes'
 vim.opt.isfname:append('@-@')
 
+vim.opt.updatetime = 250
 
 vim.opt.colorcolumn = ''
 
@@ -40,10 +42,12 @@ vim.diagnostic.config({
   virtual_text = true
 })
 
-vim.g.skip_ts_context_commentstring_module = true
-
+-- Add additional filetypes:
+-- templ: https://templ.guide/
+-- my custom language: https://github.com/viddrobnic/aoc-lang
 vim.filetype.add({
   extension = {
-    templ = "templ",
+    templ = 'templ',
+    aoc = 'aoc',
   },
 })
