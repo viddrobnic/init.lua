@@ -71,6 +71,7 @@ return {
       eslint = {},
       html = {},
       templ = {},
+      cssls = {},
       tailwindcss = {
         filetypes = {
           'html',
