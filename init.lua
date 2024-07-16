@@ -21,16 +21,13 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.skip_ts_context_commentstring_module = true
 
 require('lazy').setup({
+  -- Theme
   {
-    'ellisonleao/gruvbox.nvim',
+    'catppuccin/nvim',
+    name = 'catppuccin',
     priority = 1000,
     config = function()
-      require('gruvbox').setup({
-        contrast = 'soft',
-      })
-
-      vim.o.background = 'dark'
-      vim.cmd.colorscheme 'gruvbox'
+      vim.cmd.colorscheme 'catppuccin-frappe'
     end
   },
 

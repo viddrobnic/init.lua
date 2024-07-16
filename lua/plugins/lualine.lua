@@ -15,7 +15,7 @@ return {
 
     require('lualine').setup({
       options = {
-        theme = 'gruvbox',
+        theme = 'catppuccin-frappe',
         icons_enabled = true,
       },
       sections = {
