@@ -38,10 +38,6 @@ vim.opt.spelloptions = 'camel'
 vim.opt.spellcapcheck = ''
 vim.opt.spell = true
 
-vim.diagnostic.config({
-  virtual_text = true
-})
-
 -- Add additional filetypes:
 -- templ: https://templ.guide/
 -- my custom language: https://github.com/viddrobnic/aoc-lang

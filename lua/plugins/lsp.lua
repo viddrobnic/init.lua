@@ -40,11 +40,18 @@ return {
     -- Additional go features
     'fatih/vim-go',
 
-    -- Useful status updates for LSP
-    { 'j-hui/fidget.nvim', opts = {}, tag = 'legacy' },
-
-    -- Autocomplete for init.lua
+    -- Autocomplete for neovim api
     'folke/neodev.nvim',
+
+    -- Useful status updates for LSP
+    {
+      'j-hui/fidget.nvim',
+      opts = {},
+      tag = 'legacy',
+    },
+
+    -- Nice diagnostics
+    { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
   },
 
   config = function()
@@ -100,7 +107,6 @@ return {
       spectral = {},
       taplo = {},
       ocamllsp = {},
-      -- zls = {},
     }
 
     -- Autocomplete for vim stuff
@@ -130,6 +136,7 @@ return {
       end,
     }
 
+    -- ZLS setup
     lspconfig.zls.setup {
       capabilities = capabilities,
       on_attach = on_attach,
@@ -158,6 +165,10 @@ return {
         },
       }
     }
+
+    -- Nicer virtual text diagnostics
+    require("lsp_lines").setup()
+    vim.diagnostic.config { virtual_text = false }
 
     -- Custom signs for diagnostics
     vim.fn.sign_define('DiagnosticSignError', { text = '✘', texthl = 'DiagnosticSignError' })
