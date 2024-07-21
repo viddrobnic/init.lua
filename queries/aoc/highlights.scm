@@ -5,12 +5,14 @@
 
 (identifier) @variable
 
+(continue) @keyword
+(break) @keyword
+
 "fn" @keyword.function
 "use" @keyword.import
 ["for" "while"] @keyword.repeat
 "return" @keyword.return
 ["if" "else"] @keyword.conditional
-
 
 (integer) @number
 (float) @number.float
@@ -21,10 +23,10 @@
 (string) @string @spell
 (escape_sequence) @string.escape
 
-(function_literal 
+(function_literal
   (identifier) @variable.parameter)
 
-(function_call 
+(function_call
   function: (identifier) @function.call)
 
 ((identifier) @function.builtin
