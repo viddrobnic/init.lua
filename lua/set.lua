@@ -38,6 +38,12 @@ vim.opt.spelloptions = 'camel'
 vim.opt.spellcapcheck = ''
 vim.opt.spell = true
 
+
+-- Setup Folding
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.opt.foldlevel = 99
+
 -- Add additional filetypes:
 -- templ: https://templ.guide/
 -- my custom language: https://github.com/viddrobnic/aoc-lang
