@@ -1,5 +1,5 @@
 -- LSP Configuration
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
   local opts = function(desc)
     if desc then
       desc = 'LSP: ' .. desc
@@ -22,6 +22,30 @@ local on_attach = function(_, bufnr)
   vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts('Signature Documentation'))
 
   vim.lsp.inlay_hint.enable(true)
+
+  -- Document highlighting
+  if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+    local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
+    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+      buffer = bufnr,
+      group = highlight_augroup,
+      callback = vim.lsp.buf.document_highlight,
+    })
+
+    vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+      buffer = bufnr,
+      group = highlight_augroup,
+      callback = vim.lsp.buf.clear_references,
+    })
+
+    vim.api.nvim_create_autocmd('LspDetach', {
+      group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+      callback = function(event2)
+        vim.lsp.buf.clear_references()
+        vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+      end,
+    })
+  end
 end
 
 return {

@@ -4,7 +4,6 @@ return {
   dependencies = {
     'nvim-treesitter/nvim-treesitter-textobjects',
     'nvim-treesitter/nvim-treesitter-context',
-    'nvim-treesitter/nvim-treesitter-refactor',
 
     -- detect comments with different language from file (ie jsx)
     'JoosepAlviste/nvim-ts-context-commentstring',
@@ -67,12 +66,6 @@ return {
             node_incremental = '<C-Space>',
             node_decremental = '<C-Bslash>',
             scope_incremental = false,
-          },
-        },
-        refactor = {
-          highlight_definitions = {
-            enable = true,
-            clear_on_cursor_move = true,
           },
         },
       })
