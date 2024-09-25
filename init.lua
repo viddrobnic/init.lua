@@ -88,21 +88,6 @@ require('lazy').setup({
     end
   },
 
-  -- Supermaven
-  {
-    'supermaven-inc/supermaven-nvim',
-    config = function()
-      require('supermaven-nvim').setup({
-        log_level = 'off',
-      })
-      local api = require('supermaven-nvim.api')
-
-      api.stop()
-
-      vim.keymap.set('n', '<leader>sm', api.toggle)
-    end,
-  },
-
   -- Icons
   'nvim-tree/nvim-web-devicons',
 

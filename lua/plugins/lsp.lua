@@ -94,6 +94,7 @@ return {
             parameterNames = true,
             rangeVariableTypes = true
           },
+          usePlaceholders = true,
         },
       },
       golangci_lint_ls = {},

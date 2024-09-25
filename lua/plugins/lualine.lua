@@ -3,7 +3,6 @@ return {
   'nvim-lualine/lualine.nvim',
   dependencies = {
     'f-person/git-blame.nvim',
-    'supermaven-inc/supermaven-nvim',
   },
   config = function()
     local git_blame = require('gitblame')
@@ -11,7 +10,6 @@ return {
     vim.g.gitblame_date_format = '%r'
     vim.g.gitblame_message_template = '<author> • <date>'
 
-    local supermaven = require('supermaven-nvim.api')
 
     require('lualine').setup({
       options = {
@@ -33,17 +31,6 @@ return {
             separator = '',
             padding = 1,
             color = { fg = '#6e738d' },
-          },
-          {
-            function()
-              if supermaven.is_running() then
-                return ''
-              else
-                return ''
-              end
-            end,
-            padding = 3,
-
           },
           {
             function()
