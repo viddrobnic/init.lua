@@ -2,7 +2,7 @@ return {
   'stevearc/conform.nvim',
   config = function()
     local opts = {
-      lsp_fallback = true,
+      lsp_format = 'first',
       timeout_ms = 1000,
       notify_on_error = true,
     }
@@ -11,11 +11,11 @@ return {
     conform.setup({
       formatters_by_ft = {
         markdown = { 'prettier' },
-        html = { 'djlint', 'rustywind' },
-        javascript = { 'prettier', 'rustywind' },
-        javascriptreact = { 'prettier', 'rustywind' },
-        typescript = { 'prettier', 'rustywind' },
-        typescriptreact = { 'prettier', 'rustywind' },
+        html = { 'rustywind' },
+        javascript = { 'rustywind', 'prettier' },
+        javascriptreact = { 'rustywind', 'prettier' },
+        typescript = { 'rustywind', 'prettier' },
+        typescriptreact = { 'rustywind', 'prettier' },
         yaml = { 'prettier' },
         templ = { 'templ', 'rustywind' },
       },
