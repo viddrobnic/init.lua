@@ -78,9 +78,6 @@ return {
       opts = {},
       tag = 'legacy',
     },
-
-    -- Nice diagnostics
-    { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
   },
 
   config = function()
@@ -104,6 +101,7 @@ return {
       },
       golangci_lint_ls = {},
       pyright = {},
+      ruff = {},
       vtsls = {},
       eslint = {},
       html = {},
@@ -147,12 +145,12 @@ return {
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
     -- Ensure the servers above are installed
-    local mason_lspconfig = require 'mason-lspconfig'
+    local mason_lspconfig = require('mason-lspconfig')
     local lspconfig = require('lspconfig')
 
-    mason_lspconfig.setup {
-      ensure_installed = vim.tbl_keys(servers),
-    }
+    mason_lspconfig.setup({
+      ensure_installed = servers,
+    })
 
     mason_lspconfig.setup_handlers {
       function(server_name)
@@ -166,10 +164,17 @@ return {
       end,
     }
 
-    -- ZLS setup
-    lspconfig.zls.setup {
+    -- Setup ZLS
+    lspconfig.zls.setup({
       capabilities = capabilities,
       on_attach = on_attach,
+      settings = {
+        zls = {
+          enable_build_on_save = true,
+        },
+      },
+    })
+
     }
 
     -- Rust setup
@@ -195,10 +200,6 @@ return {
         },
       }
     }
-
-    -- Nicer virtual text diagnostics
-    require("lsp_lines").setup()
-    vim.diagnostic.config { virtual_text = false }
 
     -- Custom signs for diagnostics
     vim.fn.sign_define('DiagnosticSignError', { text = '✘', texthl = 'DiagnosticSignError' })
