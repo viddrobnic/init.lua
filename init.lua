@@ -91,6 +91,12 @@ require('lazy').setup({
   -- Icons
   'nvim-tree/nvim-web-devicons',
 
+  -- Nicer UI
+  {
+    'stevearc/dressing.nvim',
+    opts = {},
+  },
+
   -- Import plugins that require configuration
   { import = 'plugins' }
 }, {})

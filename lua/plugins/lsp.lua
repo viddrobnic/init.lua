@@ -148,21 +148,22 @@ return {
     local mason_lspconfig = require('mason-lspconfig')
     local lspconfig = require('lspconfig')
 
+    local ensure_installed = vim.tbl_keys(servers or {})
     mason_lspconfig.setup({
-      ensure_installed = servers,
+      ensure_installed = ensure_installed,
+      automatic_installation = false,
+      handlers = {
+        function(server_name)
+          lspconfig[server_name].setup {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = servers[server_name],
+            filetypes = (servers[server_name] or {}).filetypes,
+            init_options = (servers[server_name] or {}).init_options,
+          }
+        end,
+      }
     })
-
-    mason_lspconfig.setup_handlers {
-      function(server_name)
-        lspconfig[server_name].setup {
-          capabilities = capabilities,
-          on_attach = on_attach,
-          settings = servers[server_name],
-          filetypes = (servers[server_name] or {}).filetypes,
-          init_options = (servers[server_name] or {}).init_options,
-        }
-      end,
-    }
 
     -- Setup ZLS
     lspconfig.zls.setup({
@@ -174,8 +175,6 @@ return {
         },
       },
     })
-
-    }
 
     -- Rust setup
     vim.g.rustaceanvim = {
