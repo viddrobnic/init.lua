@@ -3,6 +3,7 @@ return {
   'nvim-lualine/lualine.nvim',
   dependencies = {
     'f-person/git-blame.nvim',
+    'AndreM222/copilot-lualine',
   },
   config = function()
     local git_blame = require('gitblame')
@@ -17,6 +18,7 @@ return {
         icons_enabled = true,
       },
       sections = {
+        lualine_b = { 'branch', 'diagnostics' },
         lualine_c = {
           {
             'filename',
@@ -32,6 +34,7 @@ return {
             padding = 1,
             color = { fg = '#6e738d' },
           },
+          'copilot',
           {
             function()
               if vim.bo.expandtab then
@@ -42,8 +45,6 @@ return {
             end,
             padding = 2,
           },
-          'encoding',
-          'fileformat',
           'filetype',
         },
       },
