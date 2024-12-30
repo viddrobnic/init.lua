@@ -135,6 +135,7 @@ return {
       spectral = {},
       taplo = {},
       ocamllsp = {},
+      terraformls = {},
     }
 
     -- Autocomplete for vim stuff

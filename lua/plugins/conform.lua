@@ -16,6 +16,7 @@ return {
         javascriptreact = { 'rustywind', 'prettier' },
         typescript = { 'rustywind', 'prettier' },
         typescriptreact = { 'rustywind', 'prettier' },
+        json = { 'prettier' },
         yaml = { 'prettier' },
         templ = { 'templ', 'rustywind' },
       },
