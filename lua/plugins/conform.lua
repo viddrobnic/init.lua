@@ -11,7 +11,7 @@ return {
     conform.setup({
       formatters_by_ft = {
         markdown = { 'prettier' },
-        html = { 'rustywind' },
+        html = { 'prettier', 'rustywind' },
         javascript = { 'rustywind', 'prettier' },
         javascriptreact = { 'rustywind', 'prettier' },
         typescript = { 'rustywind', 'prettier' },
