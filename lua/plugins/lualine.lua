@@ -18,7 +18,7 @@ return {
         icons_enabled = true,
       },
       sections = {
-        lualine_b = { 'branch', 'diagnostics' },
+        lualine_b = { 'diagnostics' },
         lualine_c = {
           {
             'filename',

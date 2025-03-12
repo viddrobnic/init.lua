@@ -59,6 +59,7 @@ return {
     -- Automatically install LSPs to stdpath for neovim
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
 
     -- Additional rust features
     {
@@ -134,8 +135,16 @@ return {
       yamlls = {},
       spectral = {},
       taplo = {},
-      ocamllsp = {},
-      terraformls = {},
+      zls = {
+        manual_install = true,
+        zls = {
+          enable_build_on_save = true,
+        },
+      },
+
+      nushell = {
+        manual_install = true,
+      },
     }
 
     -- Autocomplete for vim stuff
@@ -145,37 +154,32 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-    -- Ensure the servers above are installed
-    local mason_lspconfig = require('mason-lspconfig')
+    require("mason").setup()
     local lspconfig = require('lspconfig')
 
-    local ensure_installed = vim.tbl_keys(servers or {})
-    mason_lspconfig.setup({
-      ensure_installed = ensure_installed,
-      automatic_installation = false,
-      handlers = {
-        function(server_name)
-          lspconfig[server_name].setup {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = servers[server_name],
-            filetypes = (servers[server_name] or {}).filetypes,
-            init_options = (servers[server_name] or {}).init_options,
-          }
-        end,
-      }
-    })
+    -- Ensure the servers above are installed
+    local ensure_installed = vim.tbl_filter(function(key)
+      local t = servers[key]
+      if type(t) == "table" then
+        return not t.manual_install
+      else
+        return t
+      end
+    end, vim.tbl_keys(servers))
+    require('mason-tool-installer').setup({ ensure_installed = ensure_installed })
 
-    -- Setup ZLS
-    lspconfig.zls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        zls = {
-          enable_build_on_save = true,
-        },
-      },
-    })
+    -- Configure the servers with lspconfig
+    for name, config in pairs(servers) do
+      if config == true then
+        config = {}
+      end
+      config = vim.tbl_deep_extend("force", {
+        capabilities = capabilities,
+        on_attach = on_attach,
+      }, config)
+
+      lspconfig[name].setup(config)
+    end
 
     -- Rust setup
     vim.g.rustaceanvim = {
