@@ -23,11 +23,16 @@ vim.g.skip_ts_context_commentstring_module = true
 require('lazy').setup({
   -- Theme
   {
-    'catppuccin/nvim',
-    name = 'catppuccin',
+    'ellisonleao/gruvbox.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'catppuccin-frappe'
+      require('gruvbox').setup({
+        transparent_mode = true,
+        dim_inactive = false,
+      })
+
+      vim.o.background = "dark"
+      vim.cmd.colorscheme 'gruvbox'
     end
   },
 
