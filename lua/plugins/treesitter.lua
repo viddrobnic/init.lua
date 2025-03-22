@@ -10,23 +10,8 @@ return {
   },
   config = function()
     vim.defer_fn(function()
-      -- Configure custom parse for my custom language
-      -- See https://github.com/viddrobnic/aoc-lang
-      local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-      parser_config.aoc = {
-        install_info = {
-          url = 'https://github.com/viddrobnic/aoc-lang.git',
-          files = { 'tree-sitter-aoc/src/parser.c' },
-        },
-        filetype = 'aoc',
-      }
-
-
-      -- Configure treesitter
       require('nvim-treesitter.configs').setup({
         ensure_installed = {
-          'c',
-          'cpp',
           'go',
           'lua',
           'python',
@@ -40,9 +25,10 @@ return {
           'markdown',
           'markdown_inline',
           'sql',
-          'ocaml',
+          'nu',
         },
         sync_install = false,
+        auto_install = false,
 
         ignore_install = {},
 
@@ -50,21 +36,23 @@ return {
           enable = true,
         },
 
-        auto_install = false,
+        modules = {},
 
         highlight = {
           enable = true,
           additional_vim_regex_highlighting = false,
         },
+
         indent = {
           enable = true,
         },
+
         incremental_selection = {
           enable = true,
           keymaps = {
-            init_selection = '<C-Space>',
-            node_incremental = '<C-Space>',
-            node_decremental = '<C-Bslash>',
+            init_selection = '[x',
+            node_incremental = '[x',
+            node_decremental = ']x',
             scope_incremental = false,
           },
         },
