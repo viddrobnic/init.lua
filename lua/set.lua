@@ -46,10 +46,8 @@ vim.opt.foldlevel = 99
 
 -- Add additional filetypes:
 -- templ: https://templ.guide/
--- my custom language: https://github.com/viddrobnic/aoc-lang
 vim.filetype.add({
   extension = {
     templ = 'templ',
-    aoc = 'aoc',
   },
 })

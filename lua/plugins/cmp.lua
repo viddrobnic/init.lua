@@ -12,15 +12,10 @@ return {
     -- Adds a number of user-friendly snippets
     'rafamadriz/friendly-snippets',
 
-    -- Copilot
-    'zbirenbaum/copilot-cmp',
-
     -- Icons in cmp menu
     'onsails/lspkind.nvim',
   },
   config = function()
-    require('copilot_cmp').setup()
-
     local lspkind = require('lspkind')
 
     local cmp = require('cmp')
@@ -32,14 +27,15 @@ return {
       formatting = {
         format = lspkind.cmp_format({
           mode = 'symbol',
-          symbol_map = { Copilot = "" },
         }),
       },
+
       snippet = {
         expand = function(args)
           ls.lsp_expand(args.body)
         end
       },
+
       mapping = cmp.mapping.preset.insert {
         ['<Tab>'] = cmp.mapping.confirm({ select = true }),
         ['<C-Space>'] = cmp.mapping.complete(),
@@ -48,12 +44,13 @@ return {
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
       },
+
       sources = {
         { name = 'luasnip' },
         { name = 'nvim_lsp' },
-        { name = 'copilot' },
         { name = 'path' },
       },
+
       window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
