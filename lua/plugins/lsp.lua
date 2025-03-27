@@ -23,13 +23,19 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
     opts('[W]orkspace [S]ymbols'))
 
-  vim.keymap.set('n', 'gh', vim.lsp.buf.hover, opts('Hover Documentation'))
-  vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts('Signature Documentation'))
+  vim.keymap.set('n', 'gh', function()
+      vim.lsp.buf.hover({ border = 'rounded' })
+    end,
+    opts('Hover Documentation'))
+  vim.keymap.set('i', '<C-k>', function()
+      vim.lsp.buf.signature_help({ border = 'rounded' })
+    end,
+    opts('Signature Documentation'))
 
   vim.lsp.inlay_hint.enable(true)
 
   -- Document highlighting
-  if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+  if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
     local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
     vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
       buffer = bufnr,
@@ -67,9 +73,6 @@ return {
       version = '^4', -- Recommended
     },
 
-    -- Additional go features
-    'fatih/vim-go',
-
     -- Autocomplete for neovim api
     'folke/neodev.nvim',
 
@@ -77,14 +80,10 @@ return {
     {
       'j-hui/fidget.nvim',
       opts = {},
-      tag = 'legacy',
     },
   },
 
   config = function()
-    require('mason').setup()
-    require('mason-lspconfig').setup()
-
     local servers = {
       clangd = {},
       cmake = {},
@@ -147,14 +146,14 @@ return {
       },
     }
 
-    -- Autocomplete for vim stuff
+    require('mason').setup()
+    require('mason-lspconfig').setup()
     require('neodev').setup()
 
     -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-    require("mason").setup()
     local lspconfig = require('lspconfig')
 
     -- Ensure the servers above are installed
@@ -203,29 +202,6 @@ return {
           },
         },
       }
-    }
-
-    -- Custom signs for diagnostics
-    vim.fn.sign_define('DiagnosticSignError', { text = '✘', texthl = 'DiagnosticSignError' })
-    vim.fn.sign_define('DiagnosticSignWarn', { text = '▲', texthl = 'DiagnosticSignWarn' })
-    vim.fn.sign_define('DiagnosticSignHint', { text = '⚑', texthl = 'DiagnosticSignHint' })
-    vim.fn.sign_define('DiagnosticSignInfo', { text = '»', texthl = 'DiagnosticSignInfo' })
-
-    -- Rounded borders
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-      vim.lsp.handlers.hover, {
-        border = "rounded"
-      }
-    )
-
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-      vim.lsp.handlers.signature_help, {
-        border = "rounded"
-      }
-    )
-
-    vim.diagnostic.config {
-      float = { border = "rounded" }
     }
   end,
 }

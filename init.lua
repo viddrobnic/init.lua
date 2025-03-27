@@ -1,6 +1,6 @@
 require('set')
 require('remap')
-
+require('diagnostics')
 
 -- Install package manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
