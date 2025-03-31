@@ -105,25 +105,8 @@ return {
       vtsls = {},
       eslint = {},
       html = {},
-      templ = {},
       cssls = {},
-      tailwindcss = {
-        filetypes = {
-          'html',
-          'css',
-          'scss',
-          'javascript',
-          'javascriptreact',
-          'typescript',
-          'typescriptreact',
-          'templ',
-        },
-        init_options = {
-          userLanguages = {
-            templ = 'html',
-          },
-        },
-      },
+      tailwindcss = {},
       lua_ls = {
         Lua = {
           workspace = { checkThirdParty = false },
