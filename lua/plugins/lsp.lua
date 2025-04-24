@@ -78,7 +78,13 @@ return {
     -- Useful status updates for LSP
     {
       'j-hui/fidget.nvim',
-      opts = {},
+      opts = {
+        notification = {
+          window = {
+            winblend = 0,
+          },
+        },
+      },
     },
 
     'saghen/blink.cmp',
