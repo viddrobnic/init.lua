@@ -16,9 +16,8 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_command('wincmd l')
     vim.lsp.buf.definition()
   end, opts('[G]oto [D]efinition [Split]'))
-  vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, opts('[G]oto [R]eference'))
-  vim.keymap.set('n', 'gI', require('telescope.builtin').lsp_implementations, opts('[G]oto [I]mplementation'))
-  vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts('Type [D]efinition'))
+  vim.keymap.set('n', 'grr', require('telescope.builtin').lsp_references, opts('[G]oto [R]eference'))
+  vim.keymap.set('n', 'gri', require('telescope.builtin').lsp_implementations, opts('[G]oto [I]mplementation'))
   vim.keymap.set('n', 'gs', require('telescope.builtin').lsp_document_symbols, opts('[D]ocument [S]ymbols'))
   vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
     opts('[W]orkspace [S]ymbols'))
@@ -70,7 +69,7 @@ return {
     -- Additional rust features
     {
       'mrcjkb/rustaceanvim',
-      version = '^4', -- Recommended
+      version = '^6', -- Recommended
     },
 
     -- Autocomplete for neovim api
@@ -81,6 +80,8 @@ return {
       'j-hui/fidget.nvim',
       opts = {},
     },
+
+    'saghen/blink.cmp',
   },
 
   config = function()
@@ -133,9 +134,7 @@ return {
     require('mason-lspconfig').setup()
     require('neodev').setup()
 
-    -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
 
     local lspconfig = require('lspconfig')
 
@@ -172,15 +171,17 @@ return {
       },
       server = {
         on_attach = on_attach,
-        settings = {
+        default_settings = {
           ['rust-analyzer'] = {
             cargo = {
               -- always enable all features
               features = 'all',
             },
             -- use clippy on save
-            checkOnSave = {
+            checkOnSave = true,
+            check = {
               command = 'clippy',
+              extraArgs = { '--no-deps' },
             },
           },
         },

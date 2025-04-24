@@ -1,59 +1,61 @@
 return {
-  'hrsh7th/nvim-cmp',
+  'saghen/blink.cmp',
+  version = '1.*',
   dependencies = {
-    -- Snippet Engine & its associated nvim-cmp source
-    'L3MON4D3/LuaSnip',
-    'saadparwaiz1/cmp_luasnip',
-
-    -- Adds LSP completion capabilities
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-path',
+    -- Snippet Engine
+    {
+      'L3MON4D3/LuaSnip',
+      version = '2.*',
+      build = "make install_jsregexp",
+    },
 
     -- Adds a number of user-friendly snippets
     'rafamadriz/friendly-snippets',
-
-    -- Icons in cmp menu
-    'onsails/lspkind.nvim',
   },
   config = function()
-    local lspkind = require('lspkind')
-
-    local cmp = require('cmp')
-
     local ls = require('luasnip')
     require('luasnip.loaders.from_vscode').lazy_load()
 
-    cmp.setup({
-      formatting = {
-        format = lspkind.cmp_format({
-          mode = 'symbol',
-        }),
-      },
-
-      snippet = {
-        expand = function(args)
-          ls.lsp_expand(args.body)
-        end
-      },
-
-      mapping = cmp.mapping.preset.insert {
-        ['<Tab>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-k>'] = cmp.mapping.select_prev_item(),
-        ['<C-j>'] = cmp.mapping.select_next_item(),
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      },
-
+    require('blink.cmp').setup({
       sources = {
-        { name = 'luasnip' },
-        { name = 'nvim_lsp' },
-        { name = 'path' },
+        default = { 'lsp', 'path', 'snippets' },
       },
 
-      window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+      completion = {
+        menu = {
+          border = 'rounded',
+
+          -- Copy highlight from documentation setting, because gruvbox theme is a bit broken by default.
+          winhighlight = 'Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,EndOfBuffer:BlinkCmpDoc',
+
+          draw = {
+            columns = {
+              { 'label',    'label_description', gap = 1 },
+              { 'kind_icon' },
+            },
+          },
+        },
+
+        documentation = {
+          auto_show = true,
+          window = {
+            border = 'rounded'
+          },
+        },
+      },
+
+      snippets = { preset = 'luasnip' },
+      fuzzy = { implementation = 'prefer_rust_with_warning' },
+
+      keymap = {
+        preset = 'none',
+
+        ['<Tab>'] = { 'select_and_accept' },
+        ['<C-Space>'] = { 'show' },
+        ['<C-k>'] = { 'select_prev', 'fallback' },
+        ['<C-j>'] = { 'select_next', 'fallback' },
+        ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
+        ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
       },
     })
 

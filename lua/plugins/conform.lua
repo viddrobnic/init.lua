@@ -2,7 +2,7 @@ return {
   'stevearc/conform.nvim',
   config = function()
     local opts = {
-      lsp_format = 'prefer',
+      lsp_format = 'first',
       timeout_ms = 1000,
       notify_on_error = true,
     }
