@@ -18,6 +18,7 @@ return {
         typescriptreact = { 'prettier' },
         json = { 'prettier' },
         yaml = { 'prettier' },
+        astro = { 'prettier' },
       },
 
       format_on_save = function()

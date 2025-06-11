@@ -73,7 +73,10 @@ return {
     },
 
     -- Autocomplete for neovim api
-    'folke/neodev.nvim',
+    {
+      'folke/lazydev.nvim',
+      ft = 'lua',
+    },
 
     -- Useful status updates for LSP
     {
@@ -114,6 +117,7 @@ return {
       html = {},
       cssls = {},
       tailwindcss = {},
+      astro = {},
       lua_ls = {
         Lua = {
           workspace = { checkThirdParty = false },
@@ -137,8 +141,7 @@ return {
     }
 
     require('mason').setup()
-    require('mason-lspconfig').setup()
-    require('neodev').setup()
+    require('lazydev').setup()
 
     local capabilities = require('blink.cmp').get_lsp_capabilities()
 
