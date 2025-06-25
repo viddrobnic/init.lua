@@ -57,6 +57,8 @@ return {
           },
         },
       })
+
+      require('treesitter-context').setup()
     end, 0)
   end,
 }
