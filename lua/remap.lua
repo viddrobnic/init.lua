@@ -20,7 +20,7 @@ vim.keymap.set("n", "<C-l>", "<c-w>l")
 vim.keymap.set("n", "<C-h>", "<c-w>h")
 
 -- Easier size adjusting
-vim.keymap.set("n", "<M-,>", "<c-w>5<")
-vim.keymap.set("n", "<M-.>", "<c-w>5>")
-vim.keymap.set("n", "<M-w>", "<C-W>+")
-vim.keymap.set("n", "<M-s>", "<C-W>-")
+vim.keymap.set("n", "<C-left>", "<c-w>5<")
+vim.keymap.set("n", "<C-right>", "<c-w>5>")
+vim.keymap.set("n", "<C-up>", "<C-W>+")
+vim.keymap.set("n", "<C-down>", "<C-W>-")
