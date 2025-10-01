@@ -145,8 +145,6 @@ return {
 
     local capabilities = require('blink.cmp').get_lsp_capabilities()
 
-    local lspconfig = require('lspconfig')
-
     -- Ensure the servers above are installed
     local ensure_installed = vim.tbl_filter(function(key)
       local t = servers[key]
@@ -168,7 +166,8 @@ return {
         on_attach = on_attach,
       }, config)
 
-      lspconfig[name].setup(config)
+      vim.lsp.config(name, config)
+      vim.lsp.enable(name)
     end
 
     -- Rust setup
