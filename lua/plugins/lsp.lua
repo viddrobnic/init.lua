@@ -31,8 +31,6 @@ local on_attach = function(client, bufnr)
     end,
     opts('Signature Documentation'))
 
-  vim.lsp.inlay_hint.enable(true)
-
   -- Document highlighting
   if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
     local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
