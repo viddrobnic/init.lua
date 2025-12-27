@@ -67,7 +67,7 @@ return {
     -- Additional rust features
     {
       'mrcjkb/rustaceanvim',
-      version = '^6', -- Recommended
+      version = '^7',
     },
 
     -- Autocomplete for neovim api
