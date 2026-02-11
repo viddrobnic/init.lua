@@ -28,13 +28,35 @@ require('lazy').setup({
     config = function()
       require('gruvbox').setup({
         transparent_mode = true,
-        dim_inactive = false,
-        terminal_colors = false,
+        contrast = '',
       })
-
-      vim.o.background = "dark"
-      vim.cmd.colorscheme 'gruvbox'
+      vim.o.background = 'dark'
+      vim.cmd.colorscheme('gruvbox')
     end
+  },
+  {
+    "f-person/auto-dark-mode.nvim",
+    priority = 1000,
+    opts = {
+      set_dark_mode = function()
+        require('gruvbox').setup({
+          transparent_mode = true,
+          contrast = '',
+        })
+        vim.o.background = 'dark'
+        vim.cmd.colorscheme('gruvbox')
+      end,
+      set_light_mode = function()
+        require('gruvbox').setup({
+          transparent_mode = true,
+          contrast = 'hard',
+        })
+        vim.o.background = 'light'
+        vim.cmd.colorscheme('gruvbox')
+      end,
+      update_interval = 3000, -- ms
+      fallback = "dark",
+    },
   },
 
   -- NOTE: First some plugins that don't require configuration

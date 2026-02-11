@@ -13,7 +13,7 @@ return {
 
     require('lualine').setup({
       options = {
-        theme = 'gruvbox_dark',
+        theme = 'auto',
         icons_enabled = true,
       },
       sections = {
