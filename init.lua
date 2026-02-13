@@ -16,10 +16,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Needs to be set globally for the ts context string
--- extension to work correctly
-vim.g.skip_ts_context_commentstring_module = true
-
 require('lazy').setup({
   -- Theme
   {
