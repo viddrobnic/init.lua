@@ -59,11 +59,6 @@ end
 return {
   'neovim/nvim-lspconfig',
   dependencies = {
-    -- Automatically install LSPs to stdpath for neovim
-    'mason-org/mason.nvim',
-    'mason-org/mason-lspconfig.nvim',
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-
     -- Additional rust features
     {
       'mrcjkb/rustaceanvim',
@@ -126,33 +121,13 @@ return {
       yamlls = {},
       spectral = {},
       taplo = {},
-      zls = {
-        manual_install = true,
-        zls = {
-          enable_build_on_save = true,
-        },
-      },
 
-      nushell = {
-        manual_install = true,
-      },
+      nushell = {},
     }
 
-    require('mason').setup()
     require('lazydev').setup()
 
     local capabilities = require('blink.cmp').get_lsp_capabilities()
-
-    -- Ensure the servers above are installed
-    local ensure_installed = vim.tbl_filter(function(key)
-      local t = servers[key]
-      if type(t) == "table" then
-        return not t.manual_install
-      else
-        return t
-      end
-    end, vim.tbl_keys(servers))
-    require('mason-tool-installer').setup({ ensure_installed = ensure_installed })
 
     -- Configure the servers with lspconfig
     for name, config in pairs(servers) do

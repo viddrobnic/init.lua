@@ -20,6 +20,7 @@ local languages = {
   'zsh',
   'json',
   'yaml',
+  'nix',
 }
 
 local parsers = {}
