@@ -121,8 +121,8 @@ return {
       yamlls = {},
       spectral = {},
       taplo = {},
-
       nushell = {},
+      nil_ls = {},
     }
 
     require('lazydev').setup()

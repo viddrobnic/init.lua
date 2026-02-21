@@ -19,6 +19,7 @@ return {
         json = { 'prettierd' },
         yaml = { 'prettierd' },
         astro = { 'prettierd' },
+        nix = { 'nixfmt' },
       },
 
       format_on_save = function()
