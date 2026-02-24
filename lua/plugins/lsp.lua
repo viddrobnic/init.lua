@@ -62,7 +62,7 @@ return {
     -- Additional rust features
     {
       'mrcjkb/rustaceanvim',
-      version = '^7',
+      version = '^8',
     },
 
     -- Autocomplete for neovim api
@@ -163,6 +163,12 @@ return {
             check = {
               command = 'clippy',
               extraArgs = { '--no-deps' },
+            },
+            files = {
+              exclude = {
+                "target",
+                ".direnv",
+              },
             },
           },
         },
