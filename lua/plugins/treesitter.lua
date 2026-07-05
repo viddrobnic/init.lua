@@ -21,6 +21,9 @@ local languages = {
   'json',
   'yaml',
   'nix',
+  'c',
+  'cpp',
+  'qmljs',
 }
 
 local parsers = {}

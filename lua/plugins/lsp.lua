@@ -90,6 +90,7 @@ return {
     local servers = {
       clangd = {},
       cmake = {},
+      qmlls = {},
       gopls = {
         gopls = {
           hints = {
