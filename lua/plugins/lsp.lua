@@ -106,7 +106,7 @@ return {
       golangci_lint_ls = {},
       pyright = {},
       ruff = {},
-      vtsls = {},
+      tsc = {},
       eslint = {},
       html = {},
       cssls = {},
