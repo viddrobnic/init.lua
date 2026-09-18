@@ -24,6 +24,7 @@ local languages = {
   'c',
   'cpp',
   'qmljs',
+  'typst',
 }
 
 local parsers = {}

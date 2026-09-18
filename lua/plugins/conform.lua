@@ -20,6 +20,7 @@ return {
         yaml = { 'prettier' },
         astro = { 'prettier' },
         nix = { 'nixfmt' },
+        typst = { 'typstyle' },
       },
 
       format_on_save = function()
