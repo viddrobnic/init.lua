@@ -1,5 +1,5 @@
 vim.filetype.add({
   pattern = {
-    ['.+%.askama%..+'] = 'askama',
+    ['.+%.askama%.html'] = 'askamahtml',
   },
 })

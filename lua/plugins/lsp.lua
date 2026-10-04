@@ -111,11 +111,11 @@ return {
       html = {},
       cssls = {},
       tailwindcss = {
-        filetypes = vim.list_extend(vim.deepcopy(vim.lsp.config.tailwindcss.filetypes), { 'askama' }),
+        filetypes = vim.list_extend(vim.deepcopy(vim.lsp.config.tailwindcss.filetypes), { 'askamahtml' }),
         settings = {
           tailwindCSS = {
             includeLanguages = {
-              askama = 'html',
+              askamahtml = 'html',
             },
           },
         },

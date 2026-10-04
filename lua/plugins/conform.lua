@@ -19,7 +19,7 @@ return {
         json = { 'prettier' },
         yaml = { 'prettier' },
         astro = { 'prettier' },
-        askama = { 'djlint_askama' },
+        askamahtml = { 'djlint_askama' },
         nix = { 'nixfmt' },
         typst = { 'typstyle' },
       },
@@ -27,7 +27,7 @@ return {
       formatters = {
         djlint_askama = {
           inherit = 'djlint',
-          prepend_args = { '--profile=askama' },
+          prepend_args = { '--profile=askama', '--max-blank-lines', '1' },
         },
       },
 

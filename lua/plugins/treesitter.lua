@@ -7,7 +7,7 @@ local languages = {
   'rust',
   'vimdoc',
   'vim',
-  { parser = 'tsx', filetype = 'typescriptreact' },
+  { parser = 'tsx',    filetype = 'typescriptreact' },
   'typescript',
   'javascript',
   'css',
@@ -25,7 +25,7 @@ local languages = {
   'cpp',
   'qmljs',
   'typst',
-  'askama',
+  { parser = 'askama', filetype = 'askamahtml' },
 }
 
 local parsers = {}
@@ -46,6 +46,8 @@ return {
     branch = 'main',
     lazy = false,
     config = function()
+      -- Install askama tree sitter parser and use it for askamahtml
+      vim.treesitter.language.register('askama', 'askamahtml')
       vim.api.nvim_create_autocmd('User', {
         pattern = 'TSUpdate',
         callback = function()
