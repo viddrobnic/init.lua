@@ -110,7 +110,16 @@ return {
       eslint = {},
       html = {},
       cssls = {},
-      tailwindcss = {},
+      tailwindcss = {
+        filetypes = vim.list_extend(vim.deepcopy(vim.lsp.config.tailwindcss.filetypes), { 'askama' }),
+        settings = {
+          tailwindCSS = {
+            includeLanguages = {
+              askama = 'html',
+            },
+          },
+        },
+      },
       astro = {},
       lua_ls = {
         Lua = {
