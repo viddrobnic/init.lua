@@ -25,6 +25,7 @@ local languages = {
   'cpp',
   'qmljs',
   'typst',
+  'askama',
 }
 
 local parsers = {}
@@ -45,6 +46,21 @@ return {
     branch = 'main',
     lazy = false,
     config = function()
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'TSUpdate',
+        callback = function()
+          require('nvim-treesitter.parsers').askama = {
+            install_info = {
+              url = 'https://github.com/lpnh/tree-sitter-askama',
+              revision = '25bf80e9a719862bf020177525baee70e682749d',
+              queries = 'queries',
+            },
+            requires = { 'html' },
+            tier = 2,
+          }
+        end,
+      })
+
       require('nvim-treesitter').install(parsers)
       vim.api.nvim_create_autocmd('FileType', {
         pattern = filetypes,

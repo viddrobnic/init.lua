@@ -19,8 +19,16 @@ return {
         json = { 'prettier' },
         yaml = { 'prettier' },
         astro = { 'prettier' },
+        askama = { 'djlint_askama' },
         nix = { 'nixfmt' },
         typst = { 'typstyle' },
+      },
+
+      formatters = {
+        djlint_askama = {
+          inherit = 'djlint',
+          prepend_args = { '--profile=askama' },
+        },
       },
 
       format_on_save = function()

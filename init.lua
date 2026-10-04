@@ -1,6 +1,7 @@
 require('set')
 require('remap')
 require('diagnostics')
+require('filetypes')
 
 -- Install package manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -85,7 +86,11 @@ require('lazy').setup({
   {
     'windwp/nvim-ts-autotag',
     config = function()
-      require('nvim-ts-autotag').setup()
+      require('nvim-ts-autotag').setup({
+        aliases = {
+          askama = 'html',
+        },
+      })
     end
   },
 
