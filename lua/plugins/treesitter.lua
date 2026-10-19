@@ -26,6 +26,7 @@ local languages = {
   'qmljs',
   'typst',
   { parser = 'askama', filetype = 'askamahtml' },
+  'elixir',
 }
 
 local parsers = {}
