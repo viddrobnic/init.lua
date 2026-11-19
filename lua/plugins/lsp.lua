@@ -108,6 +108,9 @@ return {
       ruff = {},
       tsc = {},
       eslint = {},
+      oxlint = {
+        workspace_required = true,
+      },
       html = {},
       cssls = {},
       tailwindcss = {

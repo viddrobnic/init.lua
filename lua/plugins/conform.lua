@@ -1,8 +1,65 @@
+local function read_package_json(path)
+  local lines = vim.fn.readfile(path)
+
+  local ok, pkg = pcall(vim.json.decode, table.concat(lines, '\n'))
+  if ok and type(pkg) == 'table' then
+    return pkg
+  end
+
+  return nil
+end
+
+local function package_json_uses_prettier(pkg)
+  if pkg.prettier ~= nil then
+    return true
+  end
+
+  for _, field in ipairs({ 'dependencies', 'devDependencies' }) do
+    local deps = pkg[field]
+    if type(deps) == 'table' and deps.prettier ~= nil then
+      return true
+    end
+  end
+
+  return false
+end
+
+-- Checks if project uses prettier. There must be either:
+-- * .prettierrc file
+-- * prettier defined in package.json as dependency
+local function uses_prettier(bufnr)
+  local root = vim.fs.root(bufnr, function(name, path)
+    local is_prettier_config_file = name:match('^%.prettierrc') ~= nil or name:match('^prettier%.config%.') ~= nil
+    if is_prettier_config_file then
+      return true
+    end
+
+    if name == 'package.json' then
+      local pkg = read_package_json(vim.fs.joinpath(path, name))
+      return pkg ~= nil and package_json_uses_prettier(pkg)
+    end
+
+    return false
+  end)
+
+  return root ~= nil
+end
+
+-- Returns formatter for "web" languages. This is oxfmt, unless
+-- project uses prettier as decided by `uses_prettier` function
+local function web_formatter(bufnr)
+  if uses_prettier(bufnr) then
+    return { 'prettier' }
+  end
+
+  return { 'oxfmt' }
+end
+
 return {
   'stevearc/conform.nvim',
   config = function()
     local opts = {
-      lsp_format = 'first',
+      lsp_format = 'fallback',
       timeout_ms = 1000,
       notify_on_error = true,
     }
@@ -10,14 +67,14 @@ return {
     local conform = require('conform')
     conform.setup({
       formatters_by_ft = {
-        markdown = { 'prettier' },
-        html = { 'prettier' },
-        javascript = { 'prettier' },
-        javascriptreact = { 'prettier' },
-        typescript = { 'prettier' },
-        typescriptreact = { 'prettier' },
-        json = { 'prettier' },
-        yaml = { 'prettier' },
+        markdown = web_formatter,
+        html = web_formatter,
+        javascript = web_formatter,
+        javascriptreact = web_formatter,
+        typescript = web_formatter,
+        typescriptreact = web_formatter,
+        json = web_formatter,
+        yaml = web_formatter,
         astro = { 'prettier' },
         askamahtml = { 'djlint_askama' },
         nix = { 'nixfmt' },
